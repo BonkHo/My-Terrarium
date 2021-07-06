@@ -17,7 +17,7 @@ const createContainer = (props) => {
 
 const App = () => {
     return (
-        <React.Fragment>
+        <div className="test">
             <h1>My Terrarium</h1>
             <div id="left" className="container">
                 {leftPlants.map(createContainer)}
@@ -28,7 +28,7 @@ const App = () => {
             </div>
 
             <Terrarium />
-        </React.Fragment>
+        </div>
     );
 };
 

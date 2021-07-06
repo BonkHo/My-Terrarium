@@ -5,34 +5,31 @@ export default function useDraggable(el) {
 
     useEffect(() => {
         const handleMouseDown = (event) => {
-            const startX = event.pageX - dx;
-            const startY = event.pageY - dy;
+            let startX = event.pageX - dx;
+            let startY = event.pageY - dy;
+            let d = { x: startX, y: startY };
 
             const handleMouseMove = (event) => {
-                const newDx = event.pageX - startX;
-                const newDy = event.pageY - startY;
-                setOffset({ dx: newDx, dy: newDy });
+                d.x = event.pageX - startX;
+                d.y = event.pageY - startY;
+                console.log(d);
+                setOffset({ dx: d.x, dy: d.y });
             };
 
             document.addEventListener("mousemove", handleMouseMove);
-
-            document.addEventListener(
-                "mouseup",
-                () => {
-                    document.removeEventListener("mousemove", handleMouseMove);
-                },
-                { once: true }
-            );
+            document.addEventListener("mouseup", () => {
+                document.removeEventListener("mousemove", handleMouseMove);
+            });
         };
-
+        console.log("CREATED");
         el.current.addEventListener("mousedown", handleMouseDown);
-
+        let cleanUp = el.current;
         return () => {
-            el.current.removeEventListener("mousedown", handleMouseDown);
+            cleanUp.removeEventListener("mousedown", handleMouseDown);
         };
-    }, [dx, dy]);
+    });
 
     useEffect(() => {
-        el.current.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-    }, [dx, dy]);
+        el.current.style.transform = `translate(${dx}px, ${dy}px)`;
+    });
 }
